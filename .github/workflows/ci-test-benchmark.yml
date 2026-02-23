@@ -1,0 +1,63 @@
+name: ci-test benchmark
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - "ci-test/**"
+      - ".github/workflows/ci-test-benchmark.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-test-benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.20.0"
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm -C ci-test/tools/benchmark exec playwright install --with-deps chromium
+
+      - name: Run benchmark
+        env:
+          BENCH_RUNS: "10"
+          LHCI_RUNS: "5"
+        run: pnpm -C ci-test/tools/benchmark run benchmark
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-test-benchmark-report
+          path: ci-test/tools/benchmark/benchmark-report
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Job summary
+        run: |
+          echo "## ci-test benchmark done" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Artifact: **ci-test-benchmark-report** (download and open \`index.html\`)" >> $GITHUB_STEP_SUMMARY
