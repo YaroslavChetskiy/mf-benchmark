@@ -1,0 +1,21 @@
+{
+  "name": "@mf-benchmark/mf-product",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@mf-benchmark/contracts": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-router-dom": "7.11.0"
+  },
+  "devDependencies": {
+    "@module-federation/vite": "^1.9.7",
+    "vite": "6.4.1"
+  }
+}

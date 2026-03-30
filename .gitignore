@@ -1,0 +1,5 @@
+node_modules/
+.script
+tools/benchmark/benchmark-report/
+tools/benchmark/.lighthouseci/
+dist/

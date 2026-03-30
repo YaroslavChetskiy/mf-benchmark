@@ -1,0 +1,88 @@
+name: benchmark-pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "apps/**"
+      - "packages/**"
+      - "tools/**"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/benchmark-pages.yml"
+
+concurrency:
+  group: benchmark-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: pnpm -C tools/benchmark exec playwright install --with-deps chromium
+
+      - name: Run all benchmarks
+        env:
+          BENCH_RUNS: "5"
+          LHCI_RUNS: "3"
+        run: pnpm bench:all
+
+      - name: Verify report files
+        run: |
+          test -f benchmark-report/index.html
+          test -f benchmark-report/mf/index.html
+          test -f benchmark-report/spa/index.html
+          test -f benchmark-report/iframe/index.html
+          test -f benchmark-report/bridge/index.html
+          test -f benchmark-report/bridge/playwright/index.html
+          test -f benchmark-report/bridge/data/summary.json
+          test -f benchmark-report/bridge/lighthouse-cold/manifest.json
+          test -f benchmark-report/bridge/lighthouse-warm/manifest.json
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: benchmark-report
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

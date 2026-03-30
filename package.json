@@ -1,0 +1,51 @@
+{
+  "name": "mf-benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:mf": "pnpm -r --parallel --filter ./apps/orchestrator-mf --filter ./apps/orchestrator-mf-catalog --filter ./apps/orchestrator-mf-product --filter ./apps/orchestrator-mf-checkout dev",
+    "build:mf": "pnpm -r --filter ./apps/orchestrator-mf --filter ./apps/orchestrator-mf-catalog --filter ./apps/orchestrator-mf-product --filter ./apps/orchestrator-mf-checkout build",
+    "preview:mf": "pnpm -r --parallel --filter ./apps/orchestrator-mf --filter ./apps/orchestrator-mf-catalog --filter ./apps/orchestrator-mf-product --filter ./apps/orchestrator-mf-checkout preview:bench",
+
+    "dev:spa": "pnpm -r --parallel --filter ./apps/orchestrator-spa --filter ./apps/spa-catalog --filter ./apps/spa-product --filter ./apps/spa-checkout dev",
+    "build:spa": "pnpm -r --filter ./apps/orchestrator-spa --filter ./apps/spa-catalog --filter ./apps/spa-product --filter ./apps/spa-checkout build",
+    "preview:spa": "pnpm -r --parallel --filter ./apps/orchestrator-spa --filter ./apps/spa-catalog --filter ./apps/spa-product --filter ./apps/spa-checkout preview:bench",
+
+    "dev:iframe": "pnpm -r --parallel --filter ./apps/orchestrator-iframe --filter ./apps/iframe-catalog --filter ./apps/iframe-product --filter ./apps/iframe-checkout dev",
+    "build:iframe": "pnpm -r --filter ./apps/orchestrator-iframe --filter ./apps/iframe-catalog --filter ./apps/iframe-product --filter ./apps/iframe-checkout build",
+    "preview:iframe": "pnpm -r --parallel --filter ./apps/orchestrator-iframe --filter ./apps/iframe-catalog --filter ./apps/iframe-product --filter ./apps/iframe-checkout preview:bench",
+
+    "dev:bridge": "pnpm -r --parallel --filter ./apps/orchestrator-react-bridge --filter ./apps/react-bridge-catalog --filter ./apps/react-bridge-product --filter ./apps/react-bridge-checkout dev",
+    "build:bridge": "pnpm -r --filter ./apps/orchestrator-react-bridge --filter ./apps/react-bridge-catalog --filter ./apps/react-bridge-product --filter ./apps/react-bridge-checkout build",
+    "preview:bridge": "pnpm -r --parallel --filter ./apps/orchestrator-react-bridge --filter ./apps/react-bridge-catalog --filter ./apps/react-bridge-product --filter ./apps/react-bridge-checkout preview:bench",
+
+    "bench": "pnpm -C tools/benchmark run benchmark --",
+
+    "bench:mf": "pnpm -C tools/benchmark run benchmark -- --arch=mf",
+    "bench:iframe": "pnpm -C tools/benchmark run benchmark -- --arch=iframe",
+    "bench:spa": "pnpm -C tools/benchmark run benchmark -- --arch=spa",
+    "bench:bridge": "pnpm -C tools/benchmark run benchmark -- --arch=bridge",
+
+    "bench:all": "pnpm -C tools/benchmark run benchmark:all"
+  },
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "scheduler": "0.27.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "19.2.3",
+      "react-dom": "19.2.3",
+      "scheduler": "0.27.0",
+      "react-router-dom": "7.11.0",
+      "vite": "6.4.1",
+      "@vitejs/plugin-react": "5.1.1"
+    }
+  }
+}

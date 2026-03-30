@@ -1,0 +1,16 @@
+{
+  "name": "@mf-benchmark/data",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@mf-benchmark/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@module-federation/vite": "^1.9.7",
+    "vite": "6.4.1"
+  }
+}

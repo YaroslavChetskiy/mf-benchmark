@@ -1,0 +1,23 @@
+{
+  "name": "@mf-benchmark/benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean:report": "node scripts/clean-report.mjs",
+    "test": "playwright test --project=chromium",
+    "lhci": "node scripts/run-lhci-with-chrome.cjs",
+    "data:extract-lh": "node scripts/extract-lighthouse.mjs",
+    "data:summary": "node scripts/build-summary.mjs",
+    "report:dashboard": "node scripts/make-dashboard.mjs",
+    "report:aggregate": "node scripts/make-aggregate-dashboard.mjs",
+    "benchmark": "node scripts/run-full-benchmark.mjs",
+    "benchmark:all": "node scripts/run-all-benchmarks.mjs"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^20.17.0",
+    "chrome-launcher": "^1.1.2"
+  },
+  "packageManager": "pnpm@10.29.3"
+}
