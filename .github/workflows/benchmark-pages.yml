@@ -57,20 +57,20 @@ jobs:
 
       - name: Verify report files
         run: |
-          test -f benchmark-report/index.html
-          test -f benchmark-report/mf/index.html
-          test -f benchmark-report/spa/index.html
-          test -f benchmark-report/iframe/index.html
-          test -f benchmark-report/bridge/index.html
-          test -f benchmark-report/bridge/playwright/index.html
-          test -f benchmark-report/bridge/data/summary.json
-          test -f benchmark-report/bridge/lighthouse-cold/manifest.json
-          test -f benchmark-report/bridge/lighthouse-warm/manifest.json
+          test -f tools/benchmark/benchmark-report/index.html
+          test -f tools/benchmark/benchmark-report/mf/index.html
+          test -f tools/benchmark/benchmark-report/spa/index.html
+          test -f tools/benchmark/benchmark-report/iframe/index.html
+          test -f tools/benchmark/benchmark-report/bridge/index.html
+          test -f tools/benchmark/benchmark-report/bridge/playwright/index.html
+          test -f tools/benchmark/benchmark-report/bridge/data/summary.json
+          test -f tools/benchmark/benchmark-report/bridge/lighthouse-cold/manifest.json
+          test -f tools/benchmark/benchmark-report/bridge/lighthouse-warm/manifest.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: benchmark-report
+          path: tools/benchmark/benchmark-report
 
   deploy:
     needs: build
